@@ -37,7 +37,7 @@ Skills & Tools
 * **Hardware Skills:** Soldering, breadboard prototyping, power regulation, sensor noise filtering
 * ## 📸 Initial Hardware & Breadboard Prototypes ("Point A")
 
-### Full Hardware Kit (4 Devices)
+### Full Hardware Kit (4 Devices) + 37 in 1 kit (it is not shown in the photo)
 <img src="assets/details.jpg" width="800" alt="Hardware Kit">
 
 | Device 02: Ultrasonic Geometry Scanner (Breadboard v1) | Device 03: Probability & Statistics Logger (Breadboard v1) |
