@@ -35,3 +35,14 @@ Skills & Tools
 * **Microcontrollers:** Arduino Uno, Arduino Nano (ATmega328P), ESP32, ESP32-CAM
 * **Languages:** C++ (Arduino Framework), Python (data analysis & scripting)
 * **Hardware Skills:** Soldering, breadboard prototyping, power regulation, sensor noise filtering
+* ## 📸 Initial Hardware & Breadboard Prototypes ("Point A")
+
+### Full Hardware Kit (4 Devices)
+![Hardware Kit](assets/details.jpg)
+
+### Device 02: Ultrasonic Geometry Scanner (Breadboard v1)
+![Ultrasonic Scanner Prototype](assets/2%20device.jpg)
+
+### Device 03: Probability & Statistics Logger (Breadboard v1)
+![Probability Logger Prototype](assets/3%20device.jpg)
+
