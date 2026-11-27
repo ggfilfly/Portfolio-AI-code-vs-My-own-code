@@ -38,11 +38,11 @@ Skills & Tools
 * ## 📸 Initial Hardware & Breadboard Prototypes ("Point A")
 
 ### Full Hardware Kit (4 Devices)
-![Hardware Kit](assets/details.jpg)
+<img src="assets/details.jpg" width="450" alt="Hardware Kit">
 
 ### Device 02: Ultrasonic Geometry Scanner (Breadboard v1)
-![Ultrasonic Scanner Prototype](assets/2%20device.jpg)
+<img src="assets/2%20device.jpg" width="450" alt="Ultrasonic Scanner Prototype">
 
 ### Device 03: Probability & Statistics Logger (Breadboard v1)
-![Probability Logger Prototype](assets/3%20device.jpg)
+<img src="assets/3%20device.jpg" width="450" alt="Probability Logger Prototype">
 
