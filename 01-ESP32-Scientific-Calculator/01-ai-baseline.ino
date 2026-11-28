@@ -30,8 +30,7 @@ double storedValue = 0.0;
 char pendingOp = 0;
 bool resetNext = false;
 
-// 4 rows x 5 columns button layout (320x240 landscape)
-const char* btnLabels = {
+const char* btnLabels[4][5] = {
   {"7", "8", "9", "/", "sin"},
   {"4", "5", "6", "*", "cos"},
   {"1", "2", "3", "-", "tan"},
