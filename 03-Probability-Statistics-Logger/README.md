@@ -19,5 +19,6 @@ A portable hardware logger designed for real-world probability experiments and s
 *(Note: Exact digital pins `D2–D4` can be adjusted in `01-ai-baseline.ino` to match your final enclosure layout).*
 
 ## 📂 Files in This Module
-* **[`01-ai-baseline.ino`](./01-ai-baseline.ino)** — Initial AI-generated code (event logging, basic frequency counter, OLED stats display).
-* `02-my-final-code.ino` *(Coming in December)* — Custom rewrite with hardware/software debouncing, non-blocking UI, and EEPROM persistence across reboots.
+* **[`01-ai-baseline.ino`](./01-ai-baseline.ino)** — Initial AI-generated code (3 statistical modes, U8g2 page-buffer graphics, button hold-to-reset).
+* **[`prompts.md`](./prompts.md)** — Exact prompt log used to generate and refine the baseline prototype.
+* `02-my-final-code.ino` *(Coming in December)* — Custom rewrite with state-machine debouncing, EEPROM session saving, and improved PRNG seeding.
