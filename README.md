@@ -35,6 +35,17 @@ Skills & Tools
 * **Microcontrollers:** Arduino Uno, Arduino Nano (ATmega328P), ESP32, ESP32-CAM
 * **Languages:** C++ (Arduino Framework), Python (data analysis & scripting)
 * **Hardware Skills:** Soldering, breadboard prototyping, power regulation, sensor noise filtering
+
+## 🤖 AI Baseline vs. My Custom Code (Progress Tracker)
+
+| Device | Wiring & Docs | AI Baseline Code | My Custom Code | Planned Engineering Upgrades |
+| :--- | :---: | :---: | :---: | :--- |
+| **01. Smart Engineering Calculator (ESP32)** | ⏳ Parts Ready | ⏳ Pending | ⏳ Pending | Touchscreen UI, RPN/expression parser |
+| **02. Ultrasonic Geometry Scanner** | [Wiring & Overview](02-Ultrasonic-Geometry-Scanner/README.md) | [`01-ai-baseline.ino`](02-Ultrasonic-Geometry-Scanner/01-ai-baseline.ino) | 🔄 December | Median noise filter, non-blocking `millis()` sweep |
+| **03. Probability & Statistics Logger** | ⏳ Breadboard v1 | ⏳ Pending | ⏳ Pending | Hardware debouncing, EEPROM data logging |
+| **04. Autonomous RC Car (NRF24L01+)** | ⏳ Parts Ready | ⏳ Pending | ⏳ Pending | Packet loss failsafe, smooth PWM motor control |
+
+
 ## 📸 Initial Hardware & Breadboard Prototypes ("Point A")
 
 ### Full Hardware Kit (4 Devices) + 37 in 1 kit (it is not shown in the photo)
