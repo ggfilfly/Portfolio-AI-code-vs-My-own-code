@@ -35,20 +35,21 @@ Skills & Tools
 * **Microcontrollers:** Arduino Uno, Arduino Nano (ATmega328P), ESP32, ESP32-CAM
 * **Languages:** C++ (Arduino Framework), Python (data analysis & scripting)
 * **Hardware Skills:** Soldering, breadboard prototyping, power regulation, sensor noise filtering
-* ## 📸 Initial Hardware & Breadboard Prototypes ("Point A")
+## 📸 Initial Hardware & Breadboard Prototypes ("Point A")
 
 ### Full Hardware Kit (4 Devices) + 37 in 1 kit (it is not shown in the photo)
 <img src="assets/details.jpg" width="800" alt="Hardware Kit">
 
 | Device 02: Ultrasonic Geometry Scanner (Breadboard v1) | Device 03: Probability & Statistics Logger (Breadboard v1) |
 | :---: | :---: |
-| <img src="assets/2%20device.jpg" width="380" alt="Ultrasonic Scanner Prototype"> | <img src="assets/3%20device.jpg" width="380" alt="Probability Logger Prototype"> |
+| <img src="assets/2%20device.jpg" height="260" alt="Ultrasonic Scanner Prototype"> | <img src="assets/3%20device.jpg" height="260" alt="Probability Logger Prototype"> |
+
 ## 🔧 Hardware Assembly Log: Soldering Arduino Nano #3
 
 * **Objective:** Solder header pins onto a new Arduino Nano board for the upcoming December build phase.
 * **Technique:** Used a mini-breadboard as an alignment jig to keep header pins strictly perpendicular (90°) and prevent solder bridges.
 * **Real-World Debugging & Lesson Learned:** Accidentally touched the `RX` SMD LED epoxy lens with the soldering iron tip (causing superficial browning). Verified via USB power-up (`POW` steady, `L` blinking) that the voltage regulator and ATmega328P microcontroller are completely undamaged.
 
-| Soldering Setup | Process & RX LED Touch | Power & Blink Verification |
-| :---: | :---: | :---: |
-| <img src="assets/soldering%20begginning.jpg" width="260" alt="Soldering Setup"> | <img src="assets/soldering%20mistake.jpg" width="260" alt="Scorched RX LED"> | <img src="assets/soldering%20finish.jpg" width="260" alt="Power Test"> |
+| Soldering Setup | Process & RX LED Touch | Final Soldered Pins | USB Power & Blink Test |
+| :---: | :---: | :---: | :---: |
+| <img src="assets/soldering%20in%20process.jpg" height="220" alt="Soldering Setup"> | <img src="assets/soldering%20mistake.jpg" height="220" alt="Scorched RX LED"> | <img src="assets/soldering%20finish.jpg" height="220" alt="Final Soldered Pins"> | <img src="assets/test arduino nano.jpg" height="220" alt="Power Test"> |
