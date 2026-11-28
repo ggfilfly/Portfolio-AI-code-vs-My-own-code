@@ -79,6 +79,21 @@ https://github.com/user-attachments/assets/7d13b7d3-eeee-4b9d-bb40-0559bf3f3e02
     <td align="center"><img src="assets/2%20device.jpg" height="220" alt="Ultrasonic Scanner Prototype"></td>
     <td align="center"><img src="assets/3%20device.jpg" height="220" alt="Probability Logger Prototype"></td>
   </tr>
+  <tr>
+    <td valign="top">
+      <b>What it does:</b> Autonomous handheld scientific calculator with a resistive touchscreen UI.<br><br>
+      <b>In the video:</b> Demonstrates stylus input, arithmetic operations, and instant degree-based trigonometry (<code>sin(30°) = 0.5</code>) rendered on the 2.8" ILI9341 TFT display.
+    </td>
+    <td valign="top">
+      <b>What it does:</b> Servo-mounted acoustic radar scanning a <code>15°–165°</code> sector up to <code>2.5 m</code>.<br><br>
+      <b>In the video:</b> Shows real-time ultrasonic echo distance measurement and polar obstacle mapping (dots) alongside live angle/distance telemetry on the OLED screen.
+    </td>
+    <td valign="top">
+      <b>What it does:</b> Portable probability & statistics simulator with 3 modes (Coin toss, 2-Dice sum distribution, and 500x Law of Large Numbers batch).<br><br>
+      <b>In the video:</b> Demonstrates shake-triggered trials via the <code>KY-017</code> tilt sensor, button mode switching, and live histogram updates on the OLED.
+    </td>
+  </tr>
+
 </table>
 
 ## 🔧 Hardware Assembly Log: Soldering Arduino Nano #3
