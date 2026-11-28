@@ -1,0 +1,207 @@
+/*
+ * Device 01: ESP32 Touchscreen Scientific Calculator (AI-Generated Baseline v1)
+ * Hardware: ESP32-2432S028R ("Cheap Yellow Display" 2.8" 320x240 ILI9341 + XPT2046)
+ * Features: Basic arithmetic (+, -, *, /), scientific functions (sin, cos, tan, sqrt),
+ *           and live Serial touch coordinate output for calibration.
+ */
+
+#include <SPI.h>
+#include <TFT_eSPI.h>
+#include <XPT2046_Touchscreen.h>
+#include <math.h>
+
+// Touchscreen SPI Pins specific to ESP32-2432S028R
+#define XPT2046_IRQ  36
+#define XPT2046_MOSI 32
+#define XPT2046_MISO 39
+#define XPT2046_CLK  25
+#define XPT2046_CS   33
+
+// Change to true if colors look inverted (e.g., white background instead of black)
+#define INVERT_COLORS false
+
+SPIClass touchSPI = SPIClass(VSPI);
+XPT2046_Touchscreen ts(XPT2046_CS, XPT2046_IRQ);
+TFT_eSPI tft = TFT_eSPI();
+
+// Calculator state variables
+String currentInput = "0";
+double storedValue = 0.0;
+char pendingOp = 0;
+bool resetNext = false;
+
+// 4 rows x 5 columns button layout (320x240 landscape)
+const char* btnLabels = {
+  {"7", "8", "9", "/", "sin"},
+  {"4", "5", "6", "*", "cos"},
+  {"1", "2", "3", "-", "tan"},
+  {"C", "0", "=", "+", "sqrt"}
+};
+
+// Draw top display box with current value and pending operation
+void updateDisplay() {
+  tft.fillRect(8, 8, 304, 46, TFT_DARKGREY);
+  tft.drawRect(8, 8, 304, 46, TFT_WHITE);
+
+  // Show pending operator in top-left corner
+  if (pendingOp != 0) {
+    tft.setTextColor(TFT_YELLOW, TFT_DARKGREY);
+    tft.setTextSize(1);
+    tft.setCursor(14, 13);
+    tft.print(storedValue, 4);
+    tft.print(" ");
+    tft.print(pendingOp);
+  }
+
+  // Show main number right-aligned
+  tft.setTextColor(TFT_WHITE, TFT_DARKGREY);
+  tft.setTextSize(3);
+  int textWidth = currentInput.length() * 18;
+  int xPos = 304 - textWidth;
+  if (xPos < 14) xPos = 14;
+  tft.setCursor(xPos, 24);
+  tft.print(currentInput);
+}
+
+// Draw 4x5 keypad grid
+void drawKeypad() {
+  int startY = 62;
+  int btnW = 58;
+  int btnH = 40;
+  int gap = 4;
+
+  tft.setTextSize(2);
+  for (int r = 0; r < 4; r++) {
+    for (int c = 0; c < 5; c++) {
+      int x = 8 + c * (btnW + gap);
+      int y = startY + r * (btnH + gap);
+
+      uint16_t bgColor = TFT_NAVY;
+      if (r == 3 && c == 0) bgColor = TFT_MAROON;        // 'C' button
+      else if (r == 3 && c == 2) bgColor = TFT_DARKGREEN; // '=' button
+      else if (c >= 3) bgColor = TFT_BLUE;                // Operators & functions
+
+      tft.fillRoundRect(x, y, btnW, btnH, 5, bgColor);
+      tft.drawRoundRect(x, y, btnW, btnH, 5, TFT_CYAN);
+
+      tft.setTextColor(TFT_WHITE, bgColor);
+      String lbl = btnLabels[r][c];
+      int textX = x + (btnW - lbl.length() * 12) / 2;
+      int textY = y + (btnH - 16) / 2;
+      tft.setCursor(textX, textY);
+      tft.print(lbl);
+    }
+  }
+}
+
+void computeResult() {
+  double val = currentInput.toDouble();
+  if (pendingOp == '+') storedValue += val;
+  else if (pendingOp == '-') storedValue -= val;
+  else if (pendingOp == '*') storedValue *= val;
+  else if (pendingOp == '/') {
+    if (val == 0) {
+      currentInput = "Err: Div 0";
+      pendingOp = 0;
+      resetNext = true;
+      return;
+    }
+    storedValue /= val;
+  }
+  currentInput = String(storedValue, 6);
+  // Trim trailing zeros
+  while (currentInput.endsWith("0") && currentInput.indexOf('.') != -1) {
+    currentInput.remove(currentInput.length() - 1);
+  }
+  if (currentInput.endsWith(".")) currentInput.remove(currentInput.length() - 1);
+  pendingOp = 0;
+  resetNext = true;
+}
+
+void handleButton(String key) {
+  if (key == "C") {
+    currentInput = "0";
+    storedValue = 0.0;
+    pendingOp = 0;
+    resetNext = false;
+  } else if (key >= "0" && key <= "9") {
+    if (currentInput == "0" || resetNext) {
+      currentInput = key;
+      resetNext = false;
+    } else if (currentInput.length() < 12) {
+      currentInput += key;
+    }
+  } else if (key == "+" || key == "-" || key == "*" || key == "/") {
+    if (pendingOp != 0 && !resetNext) computeResult();
+    storedValue = currentInput.toDouble();
+    pendingOp = key;
+    resetNext = true;
+  } else if (key == "=") {
+    if (pendingOp != 0) computeResult();
+  } else if (key == "sin" || key == "cos" || key == "tan" || key == "sqrt") {
+    double val = currentInput.toDouble();
+    double res = 0.0;
+    // Trig functions use degrees for school/SAT convenience
+    if (key == "sin") res = sin(val * PI / 180.0);
+    else if (key == "cos") res = cos(val * PI / 180.0);
+    else if (key == "tan") res = tan(val * PI / 180.0);
+    else if (key == "sqrt") res = (val >= 0) ? sqrt(val) : 0.0;
+
+    currentInput = String(res, 6);
+    while (currentInput.endsWith("0") && currentInput.indexOf('.') != -1) {
+      currentInput.remove(currentInput.length() - 1);
+    }
+    if (currentInput.endsWith(".")) currentInput.remove(currentInput.length() - 1);
+    resetNext = true;
+  }
+  updateDisplay();
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  // Turn on backlight explicitly (GPIO 21 on ESP32-2432S028R)
+  pinMode(21, OUTPUT);
+  digitalWrite(21, HIGH);
+
+  tft.init();
+  tft.setRotation(1); // Landscape 320x240
+  tft.invertDisplay(INVERT_COLORS);
+  tft.fillScreen(TFT_BLACK);
+
+  touchSPI.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
+  ts.begin(touchSPI);
+  ts.setRotation(1);
+
+  drawKeypad();
+  updateDisplay();
+  Serial.println("Calculator ready!");
+}
+
+void loop() {
+  if (ts.tirqTouched() && ts.touched()) {
+    TS_Point p = ts.getPoint();
+
+    // Map raw touch coordinates to 320x240 screen
+    int screenX = map(p.x, 200, 3700, 0, 320);
+    int screenY = map(p.y, 240, 3800, 0, 240);
+
+    // Check which button was pressed
+    int startY = 62;
+    int btnW = 58;
+    int btnH = 40;
+    int gap = 4;
+
+    for (int r = 0; r < 4; r++) {
+      for (int c = 0; c < 5; c++) {
+        int x = 8 + c * (btnW + gap);
+        int y = startY + r * (btnH + gap);
+        if (screenX >= x && screenX <= x + btnW && screenY >= y && screenY <= y + btnH) {
+          handleButton(btnLabels[r][c]);
+          delay(220); // Simple debounce
+          return;
+        }
+      }
+    }
+  }
+}
