@@ -40,9 +40,9 @@ Skills & Tools
 
 | Device | Wiring & Docs | AI Baseline Code | My Custom Code | Planned Engineering Upgrades |
 | :--- | :---: | :---: | :---: | :--- |
-| **01. Smart Engineering Calculator (ESP32)** | ⏳ Parts Ready | ⏳ Pending | ⏳ Pending | Touchscreen UI, RPN/expression parser |
+| **01. Smart Engineering Calculator (ESP32)** | [Wiring & Overview](01-ESP32-Scientific-Calculator/README.md) | [`01-ai-baseline.ino`](01-ESP32-Scientific-Calculator/01-ai-baseline.ino) | 🔄 December | Expression parser, function graphing, battery monitor |
 | **02. Ultrasonic Geometry Scanner** | [Wiring & Overview](02-Ultrasonic-Geometry-Scanner/README.md) | [`01-ai-baseline.ino`](02-Ultrasonic-Geometry-Scanner/01-ai-baseline.ino) | 🔄 December | Median noise filter, non-blocking `millis()` sweep |
-| **03. Probability & Statistics Logger** | ⏳ Breadboard v1 | ⏳ Pending | ⏳ Pending | Hardware debouncing, EEPROM data logging |
+| **03. Probability & Statistics Logger** | [Wiring & Overview](03-Probability-Statistics-Logger/README.md) | [`01-ai-baseline.ino`](03-Probability-Statistics-Logger/01-ai-baseline.ino) | 🔄 December | State-machine debouncing, EEPROM data logging |
 | **04. Autonomous RC Car (NRF24L01+)** | ⏳ Parts Ready | ⏳ Pending | ⏳ Pending | Packet loss failsafe, smooth PWM motor control |
 
 
