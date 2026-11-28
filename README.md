@@ -55,10 +55,6 @@ Skills & Tools
 | :---: | :---: | :---: |
 | <img src="assets/1%20device.jpg" height="220" alt="ESP32 Calculator Prototype"> | <img src="assets/2%20device.jpg" height="220" alt="Ultrasonic Scanner Prototype"> | <img src="assets/3%20device.jpg" height="220" alt="Probability Logger Prototype"> |
 
-| Device 02: Ultrasonic Geometry Scanner (Breadboard v1) | Device 03: Probability & Statistics Logger (Breadboard v1) |
-| :---: | :---: |
-| <img src="assets/2%20device.jpg" height="260" alt="Ultrasonic Scanner Prototype"> | <img src="assets/3%20device.jpg" height="260" alt="Probability Logger Prototype"> |
-
 ## 🔧 Hardware Assembly Log: Soldering Arduino Nano #3
 
 * **Objective:** Solder header pins onto a new Arduino Nano board for the upcoming December build phase.
