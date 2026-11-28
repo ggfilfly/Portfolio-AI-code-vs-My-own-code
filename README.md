@@ -53,7 +53,8 @@ Skills & Tools
 
 
 https://github.com/user-attachments/assets/84c48fac-86f9-494e-a313-30d5440ed65b
-
+https://github.com/user-attachments/assets/7824a24e-a131-4414-881b-b119ca94d9e2
+https://github.com/user-attachments/assets/7d13b7d3-eeee-4b9d-bb40-0559bf3f3e02
 | Device 01: ESP32 Scientific Calculator (Prototype v1) | Device 02: Ultrasonic Geometry Scanner (Breadboard v1) | Device 03: Probability & Statistics Logger (Breadboard v1) |
 | :---: | :---: | :---: |
 | <img src="assets/1%20device.jpg" height="220" alt="ESP32 Calculator Prototype"> | <img src="assets/2%20device.jpg" height="220" alt="Ultrasonic Scanner Prototype"> | <img src="assets/3%20device.jpg" height="220" alt="Probability Logger Prototype"> |
