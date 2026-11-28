@@ -51,6 +51,10 @@ Skills & Tools
 ### Full Hardware Kit (4 Devices) + 37 in 1 kit (it is not shown in the photo)
 <img src="assets/details.jpg" width="800" alt="Hardware Kit">
 
+| Device 01: ESP32 Scientific Calculator (Prototype v1) | Device 02: Ultrasonic Geometry Scanner (Breadboard v1) | Device 03: Probability & Statistics Logger (Breadboard v1) |
+| :---: | :---: | :---: |
+| <img src="assets/1%20device.jpg" height="220" alt="ESP32 Calculator Prototype"> | <img src="assets/2%20device.jpg" height="220" alt="Ultrasonic Scanner Prototype"> | <img src="assets/3%20device.jpg" height="220" alt="Probability Logger Prototype"> |
+
 | Device 02: Ultrasonic Geometry Scanner (Breadboard v1) | Device 03: Probability & Statistics Logger (Breadboard v1) |
 | :---: | :---: |
 | <img src="assets/2%20device.jpg" height="260" alt="Ultrasonic Scanner Prototype"> | <img src="assets/3%20device.jpg" height="260" alt="Probability Logger Prototype"> |
