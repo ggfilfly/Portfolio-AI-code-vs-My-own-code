@@ -51,16 +51,35 @@ Skills & Tools
 ### Full Hardware Kit (4 Devices) + 37 in 1 kit (it is not shown in the photo)
 <img src="assets/details.jpg" width="800" alt="Hardware Kit">
 
+<table>
+  <tr>
+    <th align="center">Device 01: ESP32 Scientific Calculator (Prototype v1)</th>
+    <th align="center">Device 02: Ultrasonic Geometry Scanner (Breadboard v1)</th>
+    <th align="center">Device 03: Probability & Statistics Logger (Breadboard v1)</th>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
 
 https://github.com/user-attachments/assets/84c48fac-86f9-494e-a313-30d5440ed65b
 
+</td>
+    <td align="center" width="33%">
+
 https://github.com/user-attachments/assets/7824a24e-a131-4414-881b-b119ca94d9e2
+
+</td>
+    <td align="center" width="33%">
 
 https://github.com/user-attachments/assets/7d13b7d3-eeee-4b9d-bb40-0559bf3f3e02
 
-| Device 01: ESP32 Scientific Calculator (Prototype v1) | Device 02: Ultrasonic Geometry Scanner (Breadboard v1) | Device 03: Probability & Statistics Logger (Breadboard v1) |
-| :---: | :---: | :---: |
-| <img src="assets/1%20device.jpg" height="220" alt="ESP32 Calculator Prototype"> | <img src="assets/2%20device.jpg" height="220" alt="Ultrasonic Scanner Prototype"> | <img src="assets/3%20device.jpg" height="220" alt="Probability Logger Prototype"> |
+</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/1%20device.jpg" height="220" alt="ESP32 Calculator Prototype"></td>
+    <td align="center"><img src="assets/2%20device.jpg" height="220" alt="Ultrasonic Scanner Prototype"></td>
+    <td align="center"><img src="assets/3%20device.jpg" height="220" alt="Probability Logger Prototype"></td>
+  </tr>
+</table>
 
 ## 🔧 Hardware Assembly Log: Soldering Arduino Nano #3
 
