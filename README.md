@@ -52,4 +52,4 @@ Skills & Tools
 
 | Soldering Setup | Process & RX LED Touch | Final Soldered Pins | USB Power & Blink Test |
 | :---: | :---: | :---: | :---: |
-| <img src="assets/soldering%20in%20process.jpg" height="220" alt="Soldering Setup"> | <img src="assets/soldering%20mistake.jpg" height="220" alt="Scorched RX LED"> | <img src="assets/soldering%20finish.jpg" height="220" alt="Final Soldered Pins"> | <img src="assets/soldering-power-test.jpg" height="220" alt="Power Test"> |
+| <img src="assets/soldering%20in%20process.jpg" height="220" alt="Soldering Setup"> | <img src="assets/soldering%20mistake.jpg" height="220" alt="Scorched RX LED"> | <img src="assets/soldering%20finish.jpg" height="220" alt="Final Soldered Pins"> | <img src="assets/test arduino nano.jpg" height="220" alt="Power Test"> |
