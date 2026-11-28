@@ -1,146 +1,111 @@
 /*
  * Device 02: Ultrasonic Radar Scanner (AI-Generated Baseline v1)
- * Hardware: Arduino Nano, HC-SR04 Ultrasonic Sensor, SG90 Servo, 0.96" OLED (SSD1306)
- * Current Functionality: Sweeps 0-180 degrees, measures distance (cm), and plots radar map with obstacle points.
+ * Hardware: Arduino Nano, HC-SR04 Ultrasonic Sensor, SG90 Servo, 0.96" OLED (SSD1306 via U8g2)
+ * Features: Scans 15-165 degrees up to 2.5 m, stores obstacle map in array,
+ *           and renders dual-arc radar with live angle/distance telemetry.
  */
 
+#include <Arduino.h>
+#include <U8g2lib.h>
 #include <Wire.h>
 #include <Servo.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
 
-// OLED Display Settings (128x64 I2C)
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-#define OLED_RESET -1
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
-
-// Hardware Pins
-#define TRIG_PIN 11
-#define ECHO_PIN 12
-#define SERVO_PIN 9
-
-// Radar Constants
-#define MAX_DIST_CM 100.0   // Maximum detection range (cm)
-#define MIN_DIST_CM 2.0     // Minimum valid reading (cm)
-#define STEP_ANGLE 3        // Servo step in degrees
-
+// Initialize 128x64 OLED display in page-buffer mode to save SRAM
+U8G2_SSD1306_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 Servo radarServo;
 
-void setup() {
-  Serial.begin(9600);
-  
-  pinMode(TRIG_PIN, OUTPUT);
-  pinMode(ECHO_PIN, INPUT);
-  
-  radarServo.attach(SERVO_PIN);
-  radarServo.write(0);
-  
-  // Initialize OLED Display
-  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("SSD1306 allocation failed"));
-    for (;;);
-  }
-  
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(15, 25);
-  display.println(F("ULTRASONIC RADAR"));
-  display.setCursor(22, 38);
-  display.println(F("INITIALIZING..."));
-  display.display();
-  delay(1000);
-}
+// Hardware Pin Definitions
+#define TRIG_PIN 9
+#define ECHO_PIN 10
+#define SERVO_PIN 6
+#define MAX_DIST 250 // Maximum radar detection range in centimeters (2.5 meters)
 
-// Measure distance using HC-SR04 with timeout protection
-float getDistanceCM() {
+int distances[181]; // Array storing measured distances for each angle
+int currentAngle = 15;
+int stepDir = 3;
+
+// Measure distance in cm using HC-SR04 with extended echo timeout
+float getDistance() {
   digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
   digitalWrite(TRIG_PIN, HIGH);
   delayMicroseconds(10);
   digitalWrite(TRIG_PIN, LOW);
+
+  // Extended pulseIn timeout to 30,000 us so ultrasonic echo returns from 2.5-3 meters
+  long duration = pulseIn(ECHO_PIN, HIGH, 30000);
+  float dist = duration * 0.0343 / 2.0;
   
-  // Timeout 15000 us (~250 cm max) prevents freezing on open space
-  long duration = pulseIn(ECHO_PIN, HIGH, 15000);
-  if (duration == 0) {
-    return -1.0; // Out of range
-  }
-  
-  float distance = duration * 0.0343 / 2.0;
-  if (distance < MIN_DIST_CM || distance > MAX_DIST_CM) {
-    return -1.0;
-  }
-  return distance;
+  if (dist <= 2 || dist > MAX_DIST) return -1;
+  return dist;
 }
 
-// Draw radar grid, sweep ray, detected obstacle points, and angle/distance telemetry
-void updateRadarScreen(int angle, float dist) {
-  // Clear radar area at the end of each 180-degree sweep
-  if (angle == 0 || angle == 180) {
-    display.clearDisplay();
-  }
+void setup() {
+  u8g2.begin();
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  radarServo.attach(SERVO_PIN);
   
-  int centerX = 64;
-  int centerY = 63;
-  int maxRadius = 48;
-  
-  // Draw semi-circular radar arcs and baseline
-  display.drawCircle(centerX, centerY, maxRadius, SSD1306_WHITE);
-  display.drawCircle(centerX, centerY, maxRadius / 2, SSD1306_WHITE);
-  display.drawLine(centerX - maxRadius, centerY, centerX + maxRadius, centerY, SSD1306_WHITE);
-  
-  // Convert polar coordinates (angle, dist) to Cartesian screen coordinates
-  float rad = angle * PI / 180.0;
-  int lineX = centerX - cos(rad) * maxRadius;
-  int lineY = centerY - sin(rad) * maxRadius;
-  
-  // Draw current sweep ray
-  display.drawLine(centerX, centerY, lineX, lineY, SSD1306_WHITE);
-  
-  // Plot obstacle point if valid distance detected
-  if (dist > 0) {
-    float scaledR = (dist / MAX_DIST_CM) * maxRadius;
-    int objX = centerX - cos(rad) * scaledR;
-    int objY = centerY - sin(rad) * scaledR;
-    display.fillCircle(objX, objY, 2, SSD1306_WHITE);
-  }
-  
-  // Top telemetry header (clear top 14 pixels first)
-  display.fillRect(0, 0, 128, 14, SSD1306_BLACK);
-  display.setCursor(4, 2);
-  display.print(F("Angle: "));
-  display.print(angle);
-  display.print(F(" deg"));
-  
-  display.setCursor(74, 2);
-  display.print(F("Dist: "));
-  if (dist > 0) {
-    display.print((int)dist);
-    display.print(F("cm"));
-  } else {
-    display.print(F("--"));
-  }
-  
-  display.display();
-}
-
-void processStep(int angle) {
-  radarServo.write(angle);
-  delay(35); // Wait for servo stabilization (known AI baseline bottleneck)
-  
-  float dist = getDistanceCM();
-  updateRadarScreen(angle, dist);
+  // Clear obstacle map array on startup
+  for (int i = 0; i <= 180; i++) distances[i] = -1;
 }
 
 void loop() {
-  // Forward sweep: 0 to 180 degrees
-  for (int angle = 0; angle <= 180; angle += STEP_ANGLE) {
-    processStep(angle);
+  radarServo.write(currentAngle);
+  delay(40); // Pause to allow servo stabilization and distant echo reception
+
+  // Store measured distance across a 3-degree sector for smoother obstacle blips
+  int d = (int)getDistance();
+  for (int a = currentAngle - 1; a <= currentAngle + 1; a++) {
+    if (a >= 0 && a <= 180) distances[a] = d;
   }
-  
-  // Reverse sweep: 180 down to 0 degrees
-  for (int angle = 180; angle >= 0; angle -= STEP_ANGLE) {
-    processStep(angle);
+
+  // Render radar graphics using U8g2 page loop
+  u8g2.firstPage();
+  do {
+    // Semi-circular range arcs: inner = 1.25 m, outer = 2.5 m
+    u8g2.drawCircle(64, 63, 30, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_UPPER_RIGHT);
+    u8g2.drawCircle(64, 63, 60, U8G2_DRAW_UPPER_LEFT | U8G2_DRAW_UPPER_RIGHT);
+
+    // Current radar sweep ray
+    float rad = currentAngle * 3.14159 / 180.0;
+    int lx = 64 - (int)(60 * cos(rad));
+    int ly = 63 - (int)(60 * sin(rad));
+    u8g2.drawLine(64, 63, lx, ly);
+
+    // Plot detected obstacle points scaled up to 250 cm
+    for (int a = 15; a <= 165; a += 3) {
+      if (distances[a] > 0) {
+        float r = map(distances[a], 0, MAX_DIST, 0, 60);
+        float aRad = a * 3.14159 / 180.0;
+        int px = 64 - (int)(r * cos(aRad));
+        int py = 63 - (int)(r * sin(aRad));
+        u8g2.drawDisc(px, py, 2);
+      }
+    }
+
+    // Top-left telemetry: current servo angle
+    u8g2.setFont(u8g2_font_5x7_tf);
+    u8g2.setCursor(0, 8);
+    u8g2.print(currentAngle);
+    u8g2.print("deg");
+
+    // Top-right telemetry: distance in cm (< 1 m) or meters (>= 1 m)
+    u8g2.setCursor(92, 8);
+    if (d > 0 && d < 100) {
+      u8g2.print(d);
+      u8g2.print("cm");
+    } else if (d >= 100) {
+      u8g2.print(d / 100.0, 1);
+      u8g2.print("m");
+    } else {
+      u8g2.print("---");
+    }
+  } while (u8g2.nextPage());
+
+  // Reverse sweep direction at 15 and 165 degree limits
+  currentAngle += stepDir;
+  if (currentAngle >= 165 || currentAngle <= 15) {
+    stepDir = -stepDir;
   }
 }
